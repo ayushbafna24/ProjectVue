@@ -10,10 +10,13 @@
             </li>
         </ul>
         <div class="tabstrip-data">
-            <skill-set :data="skillSet"></skill-set>
+            <skill-set :data="skillSetData"></skill-set>
         </div>
         <div class="tabstrip-data">
-            <user-data></user-data>
+            <div class="user-data" v-if="userDataSet.length > 0">
+                <user-data :data="user" v-for="(user,index) in userDataSet" :key="index"></user-data>
+            </div>
+            
         </div>
     </kendo-tabstrip>
     </div>
@@ -27,7 +30,7 @@ import user from '../.././user'
 export default {
     data(){
         return{
-        skillSet: [
+        skillSetData: [
             { text: "HTML", id: 1 },
             { text: "Vue", id: 2 },
             { text: "Angular", id: 3 },
@@ -41,6 +44,7 @@ export default {
     mounted(){
        // this.getUsers();
        this.createUserDataSet();
+       console.log(this.userDataSet);
     },
     components:{
         skillSet,
@@ -72,12 +76,12 @@ export default {
                   chartData['value'] = Object.values(subject)[0];
                   chartData['color'] = vm.userChartColor[index];
                 })
-                let userData = {"name":user.name,"data":chartData}
+                let userData = {"name":user.name,"values":chartData}
                 vm.userDataSet.push(userData);
             })
+
         }
     }
-  }
 };
 </script>
 

@@ -19,13 +19,6 @@
 
 <script>
 export default {
-<<<<<<< HEAD
-    props:{
-        data:{
-            type:Array,
-            required:true,
-        }
-=======
   data() {
     return {
       value: {}
@@ -34,8 +27,7 @@ export default {
   props: {
     skillData: {
       type: Array,
-      required: true
->>>>>>> de5555a5beec73494b999771748cf6a11463e7a2
+      required: false
     }
   },
   methods: {
