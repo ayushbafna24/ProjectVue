@@ -3,8 +3,7 @@
         <h5>{{data.name}}</h5>
         <div>
              <kendo-chart ref="chart" class="chart"
-                
-                 :legend-visible="false"
+                 :legend-visible="true"
                  :series-defaults-labels-background="'transparent'"
                  :series="series"
                  :tooltip-visible="true">
@@ -30,22 +29,20 @@ export default {
             }]
         }
     },
-    mounted(){
-        console.log(this.data.values);
-        this.$forceUpdate();
-    }
+   
 }
 </script>
 <style scoped>
     .user-data-wrapper{
-        width: 150px;
+        width: 300px;
         border: 1px solid gray;
         margin: 6px;
         /* border-radius: 80% ; */
         
     }
     .chart{
-        height: 150px;
+        /* margin: 0 auto; */
+        height: 200px;
     }
    
 </style>

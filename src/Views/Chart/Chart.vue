@@ -13,9 +13,12 @@
             <skill-set :data="skillSetData"></skill-set>
         </div>
         <div class="tabstrip-data">
-            <div class="user-data" v-if="userDataSet.length > 0">
-                <user-data :data="user" v-for="(user,index) in userDataSet" :key="index"></user-data>
+            <div>
+              <div class="user-data" v-if="userDataSet.length > 0">
+              <user-data :data="user" v-for="(user,index) in userDataSet" :key="index"></user-data>
             </div>
+            </div>
+            
             
         </div>
     </kendo-tabstrip>
@@ -70,13 +73,15 @@ export default {
         createUserDataSet(){
             let vm = this;
             this.users.map(user=>{
-                let chartData = {}
+                let values = [];
                 user.skills.map((subject,index) =>{
+                    let chartData = {};
                   chartData['category'] = Object.keys(subject)[0];
                   chartData['value'] = Object.values(subject)[0];
                   chartData['color'] = vm.userChartColor[index];
+                  values.push(chartData);
                 })
-                let userData = {"name":user.name,"values":chartData}
+                let userData = {"name":user.name,"values":values}
                 vm.userDataSet.push(userData);
             })
 
