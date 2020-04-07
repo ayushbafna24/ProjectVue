@@ -11,8 +11,16 @@
   "dependencies": {
     "express": "^4.17.1",
     "serve-static": "^1.14.1",
+    "@progress/kendo-data-query": "^1.5.3",
+    "@progress/kendo-theme-default": "^4.16.0",
+    "@progress/kendo-vue-animation": "^0.5.2",
+    "@progress/kendo-vue-data-tools": "^0.5.2",
+    "@progress/kendo-vue-grid": "^0.5.2",
+    "@progress/kendo-vue-intl": "^0.5.2",
+    "@progress/kendo-vue-popup": "^0.5.2",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {
