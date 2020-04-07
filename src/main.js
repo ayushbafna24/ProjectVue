@@ -9,7 +9,9 @@ import { Chart,
   ChartInstaller } from '@progress/kendo-charts-vue-wrapper';
 
   import { Menu,LayoutInstaller,TabStrip } from '@progress/kendo-layout-vue-wrapper';
-
+  import { DropDownList } from '@progress/kendo-vue-dropdowns';
+  
+  Vue.component('dropdownlist', DropDownList);
   Vue.use(ChartInstaller);
   Vue.use(LayoutInstaller);
   
