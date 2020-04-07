@@ -1,0 +1,22 @@
+[
+    {
+        "name":"Danish",
+        "skills":[{"Html":5},{"Vue":6},{"React":5},{"Jquery":5},{"Js":8}]
+    },
+    {
+        "name":"Sunakshi",
+        "skills":[{"Html":5},{"Vue":6},{"React":5},{"Jquery":5},{"Js":8}]
+    },
+    {
+        "name":"Srashti",
+        "skills":[{"Html":5},{"Vue":6},{"React":5},{"Jquery":5},{"Js":8}]
+    },
+    {
+        "name":"Bhoodeo",
+        "skills":[{"Html":5},{"Vue":6},{"React":5},{"Jquery":5},{"Js":8}]
+    },
+    {
+        "name":"Ayush",
+        "skills":[{"Html":5},{"Vue":6},{"React":5},{"Jquery":5},{"Js":8}]
+    }
+]

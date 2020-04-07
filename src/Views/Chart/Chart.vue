@@ -10,10 +10,11 @@
             </li>
         </ul>
         <div>
+
             <skill-set :data="skillSet"></skill-set>
         </div>
         <div>
-            <p>Ut orci ligula, varius ac consequat in, rhoncus in dolor. Mauris pulvinar molestie accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean velit ligula, pharetra quis aliquam sed, scelerisque sed sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam dui mi, vulputate vitae pulvinar ac, condimentum sed eros.</p>
+            <user-data></user-data>
         </div>
     </kendo-tabstrip>
     </div>
@@ -21,18 +22,25 @@
 <script>
 import axios from 'axios';
 import skillSet from './Skill-Set';
+import userData from './User-Data';
+import user from '../.././user'
+
 export default {
     data(){
         return{
             skillSet:["HTML","Vue","Angular","React"],
-            users:[],
+            users:user,
+            userDataSet:[],
+            userChartColor:["#9de219","#90cc38","#068c35","#006634","#004d38"]//#033939
         }
     },
     mounted(){
        // this.getUsers();
+       this.createUserDataSet();
     },
     components:{
-        skillSet
+        skillSet,
+        userData
     },
     methods:{
         getUsers(){
@@ -51,6 +59,19 @@ export default {
                 } 
             )
         },
+        createUserDataSet(){
+            let vm = this;
+            this.users.map(user=>{
+                let chartData = {}
+                user.skills.map((subject,index) =>{
+                  chartData['category'] = Object.keys(subject)[0];
+                  chartData['value'] = Object.values(subject)[0];
+                  chartData['color'] = vm.userChartColor[index];
+                })
+                let userData = {"name":user.name,"data":chartData}
+                vm.userDataSet.push(userData);
+            })
+        }
     }
 }
 </script>

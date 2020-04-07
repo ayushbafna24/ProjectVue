@@ -12,7 +12,7 @@
 export default {
     props:{
         data:{
-            type:Object,
+            type:Array,
             required:true,
         }
     }
