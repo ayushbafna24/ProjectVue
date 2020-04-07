@@ -1,6 +1,6 @@
 <template>
     <div>
-        <kendo-tabstrip>
+        <kendo-tabstrip class="tabstrip">
         <ul>
             <li class="k-state-active">
                 Skill Set Data Representation
@@ -9,11 +9,10 @@
                 User Data Representation
             </li>
         </ul>
-        <div>
-
+        <div class="tabstrip-data">
             <skill-set :data="skillSet"></skill-set>
         </div>
-        <div>
+        <div class="tabstrip-data">
             <user-data></user-data>
         </div>
     </kendo-tabstrip>
@@ -28,7 +27,12 @@ import user from '../.././user'
 export default {
     data(){
         return{
-            skillSet:["HTML","Vue","Angular","React"],
+        skillSet: [
+            { text: "HTML", id: 1 },
+            { text: "Vue", id: 2 },
+            { text: "Angular", id: 3 },
+            { text: "React", id: 4 }
+        ],
             users:user,
             userDataSet:[],
             userChartColor:["#9de219","#90cc38","#068c35","#006634","#004d38"]//#033939
@@ -73,5 +77,10 @@ export default {
             })
         }
     }
-}
+  }
+};
 </script>
+
+<style lang="scss" scoped>
+@import "./Chart.scss";
+</style>
