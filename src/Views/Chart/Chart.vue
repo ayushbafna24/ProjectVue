@@ -10,7 +10,7 @@
             </li>
         </ul>
         <div class="tabstrip-data">
-            <skill-set :data="skillSetData"></skill-set>
+            <skill-set :skillData="skillSetData"></skill-set>
         </div>
         <div class="tabstrip-data">
             <div>
