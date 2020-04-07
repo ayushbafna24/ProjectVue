@@ -3,7 +3,6 @@
         <h5>{{data.name}}</h5>
         <div>
              <kendo-chart ref="chart" class="chart"
-                
                  :legend-visible="false"
                  :series-defaults-labels-background="'transparent'"
                  :series="series"
