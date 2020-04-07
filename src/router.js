@@ -5,6 +5,7 @@ import Chart from "./Views/Chart";
 import Home from "./Views/Home";
 import Logs from "./Views/Logs";
 import Scheduler from "./Views/Scheduler";
+import Scheduler2 from "./Views/Scheduler2";
 
 const routes = [
     { path: "/", component: Home, name: "home" },
@@ -12,6 +13,7 @@ const routes = [
     { path: "/chart", component: Chart, name: "chart" },
     { path: "/logkeeping", component: Logs, name: "logkeeping" },
     { path: "/scheduler", component: Scheduler, name: "scheduler" },
+    { path: "/scheduler2", component: Scheduler2, name: "scheduler2" },
 ]
 
 Vue.use(Router)
