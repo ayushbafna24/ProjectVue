@@ -25,13 +25,15 @@
             
         </div>
     </kendo-tabstrip>
+    <skillProgress></skillProgress>
     </div>
 </template>
 <script>
 import axios from 'axios';
 import skillSet from './Skill-Set';
 import userData from './User-Data';
-import user from '../.././user'
+import user from '../.././user';
+import skillProgress from './Skill-Progress';
 
 export default {
     data(){
@@ -48,6 +50,7 @@ export default {
     },
     components:{
         skillSet,
+        skillProgress,
         userData
     },
     methods:{
