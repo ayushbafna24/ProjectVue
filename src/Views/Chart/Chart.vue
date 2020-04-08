@@ -10,7 +10,10 @@
             </li>
         </ul>
         <div class="tabstrip-data">
-            <skill-set :skillData="skillSetData"></skill-set>
+            <div v-if="users.length > 0">
+                <skill-set :users="users"></skill-set>
+            </div>
+            
         </div>
         <div class="tabstrip-data">
             <div>
@@ -33,12 +36,6 @@ import user from '../.././user'
 export default {
     data(){
         return{
-        skillSetData: [
-            { text: "HTML", id: 1 },
-            { text: "Vue", id: 2 },
-            { text: "Angular", id: 3 },
-            { text: "React", id: 4 }
-        ],
             users:user,
             userDataSet:[],
             userChartColor:["#9de219","#90cc38","#068c35","#006634","#004d38"]//#033939
