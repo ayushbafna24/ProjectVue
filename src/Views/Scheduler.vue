@@ -1,5 +1,5 @@
 <template>
-  <div id="mainDataDiv">
+  <div class="main">
     <h3>Welcome To Scheduler Component</h3>
     <div class="divPadding" id="dropDownDataDiv">
         <span>Select a user to schedule an event: </span>
@@ -184,7 +184,7 @@ export default {
     // }
 }
 </script>
-<style>
+<style scoped>
   .divPadding {
     padding-top: 1em;
   }

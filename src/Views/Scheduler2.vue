@@ -1,5 +1,5 @@
 <template>
-  <div id="mainDataDiv">
+  <div id="mainDataDiv" class="main">
     <h3>Welcome To Scheduler2 Component</h3>
 
     <div v-if="showSchedular" class="divPadding" id="schedulerDataDiv">

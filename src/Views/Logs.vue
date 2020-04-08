@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         Welcome To Log Keeping Component
     </div>
 </template>

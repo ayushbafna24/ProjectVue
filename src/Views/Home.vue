@@ -1,10 +1,7 @@
 <template>
-    <div>
-        Welcome To Home Component
-    </div>
+  <div class="main">
+  </div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
