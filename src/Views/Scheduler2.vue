@@ -2,7 +2,7 @@
   <div id="mainDataDiv">
     <h3>Welcome To Scheduler2 Component</h3>
 
-    <div class="divPadding" id="schedulerDataDiv">
+    <div v-if="showSchedular" class="divPadding" id="schedulerDataDiv">
         <kendo-scheduler :data-source="localDataSource"
                         :date="date"
                         :height="500"
@@ -31,29 +31,28 @@ export default {
   name: 'Scheduler2',
   data () {
       return {
-        defaultItem: { 
-            first_name: 'Select User'
-        },
+        showSchedular: false,
         date: new Date(),
 
         // Dummy data for Scheduler.
         localDataSource: null,
-        resources: [
-                {
-                    field: "attendees", // The field of the Scheduler event which contains the resource identifier.
-                    title: "Attendees", // The label displayed in the Scheduler edit form for this resource.
-                    dataSource: [
-                        {
-                            text: "Alex", // Text of the resource instance.
-                            value: 1, // The identifier of the resource instance. Use that value to assign an event to this instance.
-                            color: "#ef701d" // Used as the background of events assigned to this resource.
-                        },
-                        { text: "Bob", value: 2, color: "#5fb1f7" },
-                        { text: "Charlie", value: 3, color: "#35a964" }
-                    ],
-                    multiple: true // Indicate that this is a multiple instance resource.
-                }
-            ]
+        resources: [],
+        // resources: [
+        //         {
+        //             field: "attendees", // The field of the Scheduler event which contains the resource identifier.
+        //             title: "Attendees", // The label displayed in the Scheduler edit form for this resource.
+        //             dataSource: [
+        //                 {
+        //                     text: "Alex", // Text of the resource instance.
+        //                     value: 1, // The identifier of the resource instance. Use that value to assign an event to this instance.
+        //                     color: "#ef701d" // Used as the background of events assigned to this resource.
+        //                 },
+        //                 { text: "Bob", value: 2, color: "#5fb1f7" },
+        //                 { text: "Charlie", value: 3, color: "#35a964" }
+        //             ],
+        //             multiple: true // Indicate that this is a multiple instance resource.
+        //         }
+        //     ]
         }
     },
     methods: {
@@ -142,6 +141,33 @@ export default {
         if(localStorage.getItem("schedularData") && JSON.parse(localStorage.getItem("schedularData")).length > 0){
             this.localDataSource = JSON.parse(localStorage.getItem("schedularData"))
         }
+
+        var userList = JSON.parse(localStorage.getItem("userList"));
+        // var userList = [
+        //                 {
+        //                     text: "Ayush", // Text of the resource instance.
+        //                     value: 1, // The identifier of the resource instance. Use that value to assign an event to this instance.
+        //                     color: "#ef701d" // Used as the background of events assigned to this resource.
+        //                 },
+        //                 { text: "Bhoodeo", value: 2, color: "#5fb1f7" },
+        //                 { text: "Sujit", value: 3, color: "#35a964" },
+        //                 { text: "Danish", value: 4, color: "#35a964" },
+        //                 { text: "Sunakshi", value: 5, color: "#35a964" },
+        //                 { text: "Srashti", value: 6, color: "#35a964" },
+        //                 { text: "Rajesh", value: 7, color: "#35a964" },
+        //                 { text: "Arjun", value: 8, color: "#35a964" },
+        //             ]
+
+        this.resources = [
+                {
+                    field: "attendees", // The field of the Scheduler event which contains the resource identifier.
+                    title: "Attendees", // The label displayed in the Scheduler edit form for this resource.
+                    dataSource: userList,
+                    multiple: true // Indicate that this is a multiple instance resource.
+                }
+            ]
+
+        this.showSchedular = true;
         // this.localDataSource = [
         //     {
         //         "id": 1,
