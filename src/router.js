@@ -3,7 +3,7 @@ import Router from "vue-router";
 import User from "./Views/User";
 import Chart from "./Views/Chart/Chart";
 import Home from "./Views/Home";
-import Logs from "./Views/Logs";
+import Logs from "./Views/LogKeeping/Logs";
 import Scheduler from "./Views/Scheduler";
 import Scheduler2 from "./Views/Scheduler2";
 
