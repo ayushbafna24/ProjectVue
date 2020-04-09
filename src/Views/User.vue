@@ -1,21 +1,26 @@
 <template>
     <div id="vueapp" class="vue-app main">
     <button @click="exportExcel" class="k-button">Export Excel</button>   
+    <button @click="exportPDFWithComp" class="k-button">Export pdf</button>
     <div class="clearfix"></div> 
+    <grid-pdf-export ref="gridPdfExport" :margin="'1cm'">
     <Grid ref="grid"
           :style="{height: '300px'}"
           :data-items="result"
           :pageable="true"
           :skip = "skip"
+          :reorderable="true"
           :take="take"
           :total="total"
           :columns="columns"
           :sortable="true"
           :sort= "sort"
-          :mode= "multiple"
-          @sortchange="sortChangeHandler"
-          @pagechange="pageChangeHandler" >
+          :resizable="true"
+          @columnreorder = "columnReorder"
+          @sortchange= "sortChangeHandler"
+          @pagechange= "pageChangeHandler" >
     </Grid>
+    </grid-pdf-export>
 </div>
 </template>
 <script>
@@ -23,15 +28,12 @@ import "@progress/kendo-theme-default/dist/all.css";
 import { Grid } from "@progress/kendo-vue-grid";
 import { saveExcel } from "@progress/kendo-vue-excel-export";
 import { orderBy } from "@progress/kendo-data-query";
+import { GridPdfExport } from "@progress/kendo-vue-pdf";
 //import axios from "axios";
 export default {
   data: function() {
     return {
-      sort: [
-        { field: "id", dir: "asc" },
-        { field: "first_name", dir: "asc" },
-        { field: "last_name", dir: "asc" }
-      ],
+      sort: [{ field: "id", dir: "asc" }],
       editID: null,
       skip: 0,
       take: 5,
@@ -42,28 +44,32 @@ export default {
           field: "last_name",
           editor: "string",
           title: "Last Name",
-          format: "{0:d}",
-          width: "250px"
+          format: "{0:d}"
         },
-        { field: "html", title: "html" },
-        { field: "vue", title: "vue" },
-        { field: "react", title: "react" },
-        { field: "js", title: "js" },
-        { field: "jquery", title: "jquery" }
+        {
+          title: "Skills",
+          children: [
+            { field: "html", title: "html" },
+            { field: "vue", title: "vue" },
+            { field: "react", title: "react" },
+            { field: "js", title: "js" },
+            { field: "jquery", title: "jquery" }
+          ]
+        }
       ],
       gridData: [],
       dataItems: [],
       excelData: []
     };
   },
-  components: { Grid },
+  components: { Grid, GridPdfExport },
   mounted() {
     this.dataItems = [
       {
         id: "5e8c2900f8c528a0902c2d32",
         first_name: "Bhoodev",
         last_name: "Dubey",
-        skills: "html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5 "
+        skills: "html: 5, vue: 5, js: 8,angular:5,vue:5,jquery:5,react:5 "
       },
       {
         id: "5e8c2900af159fc87056fe10",
@@ -142,6 +148,12 @@ export default {
     }
   },
   methods: {
+    columnReorder: function(options) {
+      this.columns = options.columns;
+    },
+    exportPDFWithComp: function() {
+      this.$refs.gridPdfExport.save(orderBy(this.gridData, this.sort));
+    },
     pageChangeHandler: function(event) {
       this.skip = event.page.skip;
       this.take = event.page.take;
