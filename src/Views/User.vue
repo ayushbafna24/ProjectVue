@@ -121,6 +121,7 @@ export default {
           skills = skills.replace("]", "");
           item.skills = skills;
         });
+        console.log('record',record);
         return record;
       }
     },
