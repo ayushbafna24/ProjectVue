@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="drop-down">
+            <p class="dropdown-heading">Select Skill : </p>
             <dropdownlist
                 :data-items="skillDropDownMenu"
                 :text-field="'text'"
@@ -18,6 +19,9 @@
                  :category-axis="categoryAxis"
                  :value-axis="valueAxis"
                  :tooltip="tooltip"
+                 :pannable-lock="'x'"
+                 :zoomable-mousewheel-lock="'x'"
+                 :zoomable-selection-lock="'x'"
                  :theme="'sass'">
             </kendo-chart>
         </div>
@@ -97,9 +101,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .drop-down{
         display: flex;
         justify-content: flex-end;
+        .dropdown-heading{
+            margin: 4px;
+        }
     }
 </style>
