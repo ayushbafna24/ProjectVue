@@ -72,7 +72,7 @@ export default {
       this.value = event.value;
      this.getSkillChartValues();
     },
-    getSkillChartValues(){
+    getSkillChartValues(){ // filtering chart data
         var vm = this;
         var chartValues = [];
         this.series = [];
@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     this.skillDropDowns();
-    this.value = this.skillDropDownMenu[0];
+    this.value = this.skillDropDownMenu[0]; // default selection.
     this.getSkillChartValues();
      this.users.map(user=>{
            this.categoryAxis.categories.push(user.name);

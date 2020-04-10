@@ -14,6 +14,11 @@
                 :style="{height: '300px'}"
                 :data-items="skillGridList"
                 :columns="columns">
+                 <!-- <GridToolbar>
+                    <button title="Add new" class="k-button k-primary" @click="insert">
+                    Add new
+                    </button>
+                </GridToolbar> -->
             </Grid>
         </div>
 
@@ -32,7 +37,10 @@ export default {
                 { field: "id", editable: false, title: "ID", },
                 { field: "skill_name", title: "Skills", },
                 { field: "skill_value", title: "Skill Level", },
-                { field: "action", title: "Action", },
+                { command: [{ name: "edit",
+                       iconClass:"k-icon k-i-copy",
+                       text: { edit: "Custom edit", cancel: "Custom cancel", update: "Custom update" } }] 
+                },
             ],
             defaultItem: { 
                 name: 'Select User'
@@ -43,7 +51,8 @@ export default {
     },
     mounted(){},
     components:{
-        Grid
+        Grid,
+        //GridToolbar
     },
     methods: {
         onDropDownChange(event) {
@@ -62,7 +71,7 @@ export default {
                 gridItem['id'] = index+1;
                 gridItem['skill_name'] = Object.keys(skill)[0];
                 gridItem['skill_value'] = Object.values(skill)[0];
-                gridItem['action'] = 'action';
+               // gridItem['action'] = 'action';
 
                 this.skillGridList.push(gridItem);
             })
@@ -79,4 +88,5 @@ export default {
     .grid{
         margin: 40px;
     }
+    
 </style>
