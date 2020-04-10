@@ -15,8 +15,9 @@ import { Menu, LayoutInstaller, TabStrip } from '@progress/kendo-layout-vue-wrap
 import { DropDownList } from '@progress/kendo-vue-dropdowns';
 
 import { BootstrapVue } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import { ApiService } from './service/api.service';
 
 Vue.use(ChartInstaller);
 Vue.use(LayoutInstaller);
@@ -25,7 +26,9 @@ Vue.component('dropdownlist', DropDownList);
 Vue.use(SchedulerInstaller);
 
 // Install BootstrapVue
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+
+Vue.prototype.$ApiService = ApiService;
 
 new Vue({
   router,
