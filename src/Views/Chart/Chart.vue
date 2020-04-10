@@ -26,6 +26,7 @@
         </div>
     </kendo-tabstrip>
     <skillProgress></skillProgress>
+    <userProgress></userProgress>
     </div>
 </template>
 <script>
@@ -34,6 +35,7 @@ import skillSet from './Skill-Set';
 import userData from './User-Data';
 import user from '../.././user';
 import skillProgress from './Skill-Progress';
+import userProgress from './User-progress';
 
 export default {
     data(){
@@ -51,7 +53,8 @@ export default {
     components:{
         skillSet,
         skillProgress,
-        userData
+        userData,
+        userProgress
     },
     methods:{
         getUsers(){
