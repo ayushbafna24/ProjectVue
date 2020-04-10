@@ -139,7 +139,7 @@ export default {
             item[elememt[0].trim()] = elememt[1];
           }
         });
-        record = record.slice(this.skip, this.take + this.skip);
+        console.log('record',record);
         return record;
       }
     },
