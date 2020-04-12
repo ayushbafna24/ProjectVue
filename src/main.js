@@ -13,19 +13,21 @@ import {
 
 import { Menu, LayoutInstaller, TabStrip } from '@progress/kendo-layout-vue-wrapper';
 import { DropDownList } from '@progress/kendo-vue-dropdowns';
+import {CommandCell} from './Views/LogKeeping/LogsAction'
 
 import { BootstrapVue } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.use(ChartInstaller);
 Vue.use(LayoutInstaller);
 Vue.config.productionTip = false;
 Vue.component('dropdownlist', DropDownList);
+Vue.component("template-component", CommandCell);
 Vue.use(SchedulerInstaller);
 
 // Install BootstrapVue
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 
 new Vue({
   router,

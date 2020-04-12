@@ -11,14 +11,19 @@
         </div>
         <div class="grid">
             <Grid ref="grid"
-                :style="{height: '300px'}"
+                :style="{height: '440px'}"
                 :data-items="skillGridList"
                 :columns="columns">
-                 <!-- <GridToolbar>
-                    <button title="Add new" class="k-button k-primary" @click="insert">
-                    Add new
+                <grid-toolbar>
+                    <button title="Add new"
+                            class="k-button k-primary"
+                            @click='insert' >
+                        Add new
                     </button>
-                </GridToolbar> -->
+                </grid-toolbar>
+                <grid-no-records>
+                    There is no data available custom
+                </grid-no-records>
             </Grid>
         </div>
 
@@ -28,7 +33,7 @@
 <script>
 import user from '../.././user'
 import "@progress/kendo-theme-default/dist/all.css";
-import { Grid } from "@progress/kendo-vue-grid";
+import { Grid, GridToolbar, GridNoRecords } from "@progress/kendo-vue-grid";
 
 export default {
     data(){
@@ -37,10 +42,7 @@ export default {
                 { field: "id", editable: false, title: "ID", },
                 { field: "skill_name", title: "Skills", },
                 { field: "skill_value", title: "Skill Level", },
-                { command: [{ name: "edit",
-                       iconClass:"k-icon k-i-copy",
-                       text: { edit: "Custom edit", cancel: "Custom cancel", update: "Custom update" } }] 
-                },
+                 { cell: this.$CommandCell, filterable: false, width: '180px' }
             ],
             defaultItem: { 
                 name: 'Select User'
@@ -52,7 +54,8 @@ export default {
     mounted(){},
     components:{
         Grid,
-        //GridToolbar
+        GridToolbar,
+        GridNoRecords
     },
     methods: {
         onDropDownChange(event) {
@@ -60,6 +63,11 @@ export default {
             this.skillGridList = [];
             if(value != 'Select User')
                 this.filterUserSkills(value);
+        },
+         insert() {
+            const dataItem = { inEdit: true };
+           // const newproducts = this.gridData.slice();
+            this.userList.splice(0, 0, dataItem)
         },
         filterUserSkills(selectedName){
            let userSkill = this.userList.filter(user => {
