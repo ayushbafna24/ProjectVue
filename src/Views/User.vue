@@ -1,21 +1,21 @@
 <template>
     <div id="vueapp" class="vue-app main">
     <button @click="exportExcel" class="k-button">Export Excel</button>   
-    <button @click="exportPDFWithComp" class="k-button">Export pdf</button>
+    <button @click= "exportPDFWithComp" class="k-button">Export pdf</button>
     <div class="clearfix"></div> 
     <grid-pdf-export ref="gridPdfExport" :margin="'1cm'">
     <Grid ref="grid"
-          :style="{height: '300px'}"
-          :data-items="result"
-          :pageable="true"
+          :data-items= "result"
+          :pageable=  "pageable"
           :skip = "skip"
           :reorderable="true"
-          :take="take"
-          :total="total"
-          :columns="columns"
-          :sortable="true"
+          :take= "take"
+          :total= "total"
+          :columns= "columns"
+          :sortable= "true"
           :sort= "sort"
           :resizable="true"
+          :page-size="pageSize"
           @columnreorder = "columnReorder"
           @sortchange= "sortChangeHandler"
           @pagechange= "pageChangeHandler" >
@@ -29,14 +29,23 @@ import { Grid } from "@progress/kendo-vue-grid";
 import { saveExcel } from "@progress/kendo-vue-excel-export";
 import { orderBy } from "@progress/kendo-data-query";
 import { GridPdfExport } from "@progress/kendo-vue-pdf";
-//import axios from "axios";
+//import userList from "../user.json";
+import axios from "axios";
 export default {
   data: function() {
     return {
-      sort: [{ field: "id", dir: "asc" }],
+      sort: [{ field: "id", dir: "asc" }], // By default sorting id
       editID: null,
       skip: 0,
       take: 5,
+      pageSize: 5,
+      pageable: {
+        buttonCount: 5,
+        info: true,
+        type: "numeric",
+        pageSizes: true,
+        previousNext: true
+      },
       columns: [
         { field: "id", editable: false, title: "ID" },
         { field: "first_name", title: "First Name" },
@@ -49,11 +58,13 @@ export default {
         {
           title: "Skills",
           children: [
-            { field: "html", title: "html" },
-            { field: "vue", title: "vue" },
-            { field: "react", title: "react" },
-            { field: "js", title: "js" },
-            { field: "jquery", title: "jquery" }
+            { field: "HTML", title: "HTML" },
+            { field: "VUE", title: "VUE" },
+            { field: "REACT", title: "REACT" },
+            { field: "JS", title: "JS" },
+            { field: "JQUERY", title: "JQUERY" },
+            { field: "NODEJS", title: "NODEJS" },
+            { field: "ANGULAR", title: "ANGULAR" }
           ]
         }
       ],
@@ -64,65 +75,13 @@ export default {
   },
   components: { Grid, GridPdfExport },
   mounted() {
-    this.dataItems = [
-      {
-        id: "5e8c2900f8c528a0902c2d32",
-        first_name: "Bhoodev",
-        last_name: "Dubey",
-        skills: "html: 5, vue: 5, js: 8,angular:5,vue:5,jquery:5,react:5 "
-      },
-      {
-        id: "5e8c2900af159fc87056fe10",
-        first_name: "sunakshi",
-        last_name: "chagti",
-        skills: "html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5 "
-      },
-      {
-        id: "5e8c2900f68e91080f45ced8",
-        first_name: "Danish",
-        last_name: "Arora",
-        skills: "html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5 "
-      },
-      {
-        id: "5e8c2900f20bd592d65c9511",
-        first_name: "Rajesh",
-        last_name: "Roshan",
-        skills: "html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5 "
-      },
-      {
-        id: "5e8c2900a015a3591a357240",
-        first_name: "sujit",
-        last_name: "kumar",
-        skills: "[html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5] "
-      },
-      {
-        id: "5e8c2900f769b5a28004a4b6",
-        first_name: "Ayush",
-        last_name: "Bafna",
-        skills: "[html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5] "
-      },
-      {
-        id: "5e8c2900fc6f0607f5be0684",
-        first_name: "shrasti",
-        last_name: "gupta",
-        skills: "[html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5] "
-      },
-      {
-        id: "5e8c290015cb11fc78c83586",
-        first_name: "Arjun",
-        last_name: "Rawal",
-        skills: "[html: 5, vue: 5, js: 5,angular:5,vue:5,jquery:5,react:5] "
-      }
-    ];
-    this.gridData = this.dataItems;
     // info.data
-    // axios
-    //   .get("https://skilldata.free.beeceptor.com/getskills")
-    //   .then(response => {
-    //     let info = response;
-    //     this.gridData = info.data;
-    //     console.log("infoinfoinfo", info.data);
-    //   });
+    axios
+      .get("https://skilldata.free.beeceptor.com/getskills")
+      .then(response => {
+        let info = response;
+        this.gridData = info.data;
+      });
   },
   computed: {
     result: {
@@ -139,8 +98,7 @@ export default {
             item[elememt[0].trim()] = elememt[1];
           }
         });
-        console.log('record',record);
-        return record;
+        return record.slice(this.skip, this.take + this.skip);
       }
     },
     total() {
@@ -178,5 +136,8 @@ export default {
 }
 .clearfix {
   clear: both;
+}
+th a {
+  text-align: center;
 }
 </style>
