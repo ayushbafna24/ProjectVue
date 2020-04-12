@@ -13,7 +13,7 @@ import {
 
 import { Menu, LayoutInstaller, TabStrip } from '@progress/kendo-layout-vue-wrapper';
 import { DropDownList } from '@progress/kendo-vue-dropdowns';
-import {CommandCell} from './Views/LogKeeping/LogsAction'
+import CommandCell from './Views/LogKeeping/LogsAction.vue';
 
 import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -24,19 +24,20 @@ Vue.use(ChartInstaller);
 Vue.use(LayoutInstaller);
 Vue.config.productionTip = false;
 Vue.component('dropdownlist', DropDownList);
-Vue.component("template-component", CommandCell);
 Vue.use(SchedulerInstaller);
 
 // Install BootstrapVue
 Vue.use(BootstrapVue);
 
 Vue.prototype.$ApiService = ApiService;
+// Vue.prototype.$CommandCell = Vue.component("template-component", CommandCell);
 
 new Vue({
   router,
   components: {
     Chart,
     Sparkline,
+    CommandCell,
     TabStrip,
     Menu,
     StockChart

@@ -14,13 +14,6 @@
                 :style="{height: '440px'}"
                 :data-items="skillGridList"
                 :columns="columns">
-                <grid-toolbar>
-                    <button title="Add new"
-                            class="k-button k-primary"
-                            @click='insert' >
-                        Add new
-                    </button>
-                </grid-toolbar>
                 <grid-no-records>
                     There is no data available custom
                 </grid-no-records>
@@ -33,7 +26,8 @@
 <script>
 import user from '../.././user'
 import "@progress/kendo-theme-default/dist/all.css";
-import { Grid, GridToolbar, GridNoRecords } from "@progress/kendo-vue-grid";
+import CommandCell from './LogsAction';
+import { Grid, GridNoRecords } from "@progress/kendo-vue-grid";
 
 export default {
     data(){
@@ -41,8 +35,8 @@ export default {
             columns:[
                 { field: "id", editable: false, title: "ID", },
                 { field: "skill_name", title: "Skills", },
-                { field: "skill_value", title: "Skill Level", },
-                 { cell: this.$CommandCell, filterable: false, width: '180px' }
+                { field: "skill_value", title: "Skill Level",editor: 'numeric' },
+                { cell: CommandCell, filterable: false, width: '250px' }
             ],
             defaultItem: { 
                 name: 'Select User'
@@ -54,7 +48,6 @@ export default {
     mounted(){},
     components:{
         Grid,
-        GridToolbar,
         GridNoRecords
     },
     methods: {
