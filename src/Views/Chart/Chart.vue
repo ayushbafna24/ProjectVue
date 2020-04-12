@@ -26,14 +26,16 @@
         </div>
     </kendo-tabstrip>
     <skillProgress></skillProgress>
+    <userProgress></userProgress>
     </div>
 </template>
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import skillSet from './Skill-Set';
 import userData from './User-Data';
 import user from '../.././user';
 import skillProgress from './Skill-Progress';
+import userProgress from './User-progress';
 
 export default {
     data(){
@@ -44,29 +46,29 @@ export default {
         }
     },
     mounted(){
-       // this.getUsers();
+        this.getUsers();
        this.createUserDataSet();
        console.log(this.userDataSet);
     },
     components:{
         skillSet,
         skillProgress,
-        userData
+        userData,
+        userProgress
     },
     methods:{
         getUsers(){
-            let vm = this;
-            axios.get('https://skilldata.free.beeceptor.com/getskills').then(
+           this.$ApiService.getUserList().then(
                 response =>{
-                    this.users = response.data;
-                    // filter skill sets.
-                    let skill = response.data[0].skills.replace("[","");
-                    skill = skill.replace("]","").trim().split(",");
-                    skill.forEach(element => {
-                        element = element.trim().split(":")[0];
-                        if(!vm.skillSet.includes(element))
-                            vm.skillSet.push(element);
-                    });
+                    this.users = response;
+                    // // filter skill sets.
+                    // let skill = response[0].skills.replace("[","");
+                    // skill = skill.replace("]","").trim().split(",");
+                    // skill.forEach(element => {
+                    //     element = element.trim().split(":")[0];
+                    //     if(!vm.skillSet.includes(element))
+                    //         vm.skillSet.push(element);
+                    // });
                 } 
             )
         },
