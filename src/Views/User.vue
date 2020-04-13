@@ -98,7 +98,11 @@ export default {
             item[elememt[0].trim()] = elememt[1];
           }
         });
-        return record.slice(this.skip, this.take + this.skip);
+        console.log("recordrecord", record);
+        return orderBy(record, this.sort).slice(
+          this.skip,
+          this.take + this.skip
+        );
       }
     },
     total() {
