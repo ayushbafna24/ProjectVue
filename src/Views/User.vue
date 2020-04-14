@@ -86,7 +86,8 @@ export default {
   computed: {
     result: {
       get: function() {
-        let record = orderBy(this.gridData, this.sort);
+        let record = this.gridData;
+        //let record = orderBy(this.gridData, this.sort);
         record.forEach(function(item, index) {
           item.id = index + 1;
           let skills = item.skills.replace("[", "");
