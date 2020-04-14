@@ -17,6 +17,11 @@
                 <grid-no-records>
                     There is no data available custom
                 </grid-no-records>
+                <grid-toolbar>
+                    <button class="k-button k-grid-remove-command" @click="update()">
+                        Update
+                    </button>
+                </grid-toolbar>
             </Grid>
         </div>
 
@@ -27,7 +32,7 @@
 import user from '../.././user'
 import "@progress/kendo-theme-default/dist/all.css";
 import CommandCell from './LogsAction';
-import { Grid, GridNoRecords } from "@progress/kendo-vue-grid";
+import { Grid, GridNoRecords,GridToolbar } from "@progress/kendo-vue-grid";
 
 export default {
     data(){
@@ -48,6 +53,7 @@ export default {
     mounted(){},
     components:{
         Grid,
+        GridToolbar,
         GridNoRecords
     },
     methods: {

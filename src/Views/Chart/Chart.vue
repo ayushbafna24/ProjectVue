@@ -46,7 +46,7 @@ export default {
         }
     },
     mounted(){
-        this.getUsers();
+       // this.getUsers();
        this.createUserDataSet();
        console.log(this.userDataSet);
     },
