@@ -2,13 +2,13 @@ import Vue from "vue";
 import Router from "vue-router";
 import User from "./Views/User";
 import Chart from "./Views/Chart/Chart";
-import Home from "./Views/Home";
+//import Home from "./Views/Home";
 import Logs from "./Views/LogKeeping/Logs";
 import Scheduler from "./Views/Scheduler";
 import Scheduler2 from "./Views/Scheduler2";
 
 const routes = [
-    { path: "/", component: Home, name: "home" },
+    { path: "/", component: User, name: "home" },
     { path: "/user", component: User, name: "user" },
     { path: "/chart", component: Chart, name: "chart" },
     { path: "/logkeeping", component: Logs, name: "logkeeping" },

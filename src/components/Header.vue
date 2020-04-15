@@ -1,7 +1,7 @@
 <template>
   <header>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">Kendo UI</b-navbar-brand>
+      <b-navbar-brand href="#">Team Skill Tracker</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
