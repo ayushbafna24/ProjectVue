@@ -6,7 +6,7 @@
         <dropdownlist
             :data-items="userList"
             :text-field="'name'"
-            :data-item-key="'id'"
+            :data-item-key="'name'"
             :default-item="defaultItem"
             @change="onDropDownChange">
         </dropdownlist>
@@ -16,7 +16,6 @@
         <kendo-scheduler :data-source="localDataSource"
                         :date="date"
                         :height="500"
-                        :timezone="'Etc/UTC'"
                         :event-template="eventTemplate"
                         :resources="resources"
                         @edit="onEdit"
@@ -35,33 +34,29 @@
 </template>
 
 <script>
-
-// Open this import statement to consume any API.
-//import axios from "axios";
-
 import user from '../user'
-import attendees from '../attendees'
-import scheduleData from '../schedule'
 
 export default {
   name: 'Scheduler',
   data () {
       return {
-            //baseURL: 'https://demoapis.free.beeceptor.com/',
+
             scheduleFlag: false,
 
             // Getting data from "user.json" file for user drop-down.
             userList:user,
 
             // Getting data from "schedule.json" file for Scheduler.
-            localDataSource: scheduleData,
+            localDataSource: [],
 
             resources: [],
 
-            defaultItem: { 
+            attendeesList: null,
+
+            defaultItem: {
                 name: 'Select User'
             },
-            firstName: "",
+            selectedUser: "",
             eventTemplate: '<div class="movie-template"><p>#: kendo.toString(start, "hh:mm") # - #: kendo.toString(end, "hh:mm") #</p> <h3>#: title #</h3></div>' ,
             allDayEvenTemplate: "allDayEvenTemplate",
             dateHeaderTemplate: "dateHeaderTemplate",
@@ -72,24 +67,26 @@ export default {
         }
     },
     methods: {
-        
+
         /**
         *  Drop-Down onChange method
         **/
         onDropDownChange(event) {
-            console.log('Received Value: '+ event.target.value.id);
+
+            console.log('Received Value: '+ event.target.value.name);
             if(event.target.value.id != undefined) {
-
-                // Open this commented code to fetch the schedule data from API based on user-id.
-
-                // axios.get(this.baseURL + 'getschedule?id=' + event.target.value.id)
-                // .then(response => (this.localDataSource = response["data"]));
+                this.selectedUser = event.target.value.name;
+                this.$ApiService.findEventScheduleData(event.target.value.name).then (
+                     response =>{
+                         this.localDataSource = response;
+                     }
+                 );
                 this.scheduleFlag = true;
+                console.log("Received Data: ", this.localDataSource);
             } else {
                 this.scheduleFlag = false;
             }
         },
-
         onEdit: function (ev) {
             console.log("Event :: edit: " + ev.event.title);
         },
@@ -100,42 +97,69 @@ export default {
             console.log("Event :: cancel: " + ev.event.title);
         },
         onSave: function (ev) {
-            console.log("Title: " + ev.event.title);
-            console.log("Description: " + ev.event.description);
-            console.log("Start Time: " + ev.event.start);
-            console.log("End Time: " + ev.event.end);
+            console.log("Event Values: " + ev.event);
 
-            // Open this commented code to call the API for persisting the Schedule data.
-
-            /*let payload = [{title: ev.event.title,
+            let payload = {
+                id: ev.event._id,
+                title: ev.event.title,
                 description: ev.event.description,
                 start: ev.event.start,
-                end: ev.event.end}]
+                end: ev.event.end,
+                user: this.selectedUser
+              }
 
-            axios.post('https://demoapiss.free.beeceptor.com/addschedule', payload)
-            .then(response => (this.localDataSource = response["data"]))*/
+            this.$ApiService.saveAndUpdateEventScheduleData(payload).then (
+                 response => {
+                   this.localDataSource.push(response);
+                   console.log("Save/Edit EventScheule Response: ", response);
+                   console.log("EventScheule Data: ", this.localDataSource);
+                 }
+             );
 
         },
-        remove: function(ev) {
-            console.log("Removing", ev.event.title);
-        }
-    }
 
-    // Open this commented code to fetch the user drop-down data from API.
-    ,
-    mounted () {
-        /*axios
-        .get(this.baseURL + 'getskills')
-        .then(response => (this.userList = response["data"]));*/
-        console.log(attendees);
+        remove: function(event) {
+
+            console.log(`Removing Event: ${event.event.title} for USER: ${event.event.user} and ID: ${event.event._id}`);
+
+            this.$ApiService.deleteEventScheduleData(event.event.user, event.event._id).then (
+                 response => {
+                   console.log("Delete Response: ", response);
+
+                   // Getting index of object with _id
+                   var removeIndex = this.localDataSource.map(function(item) { return item._id; }).indexOf(response._id);
+
+                   // Removing object based on index.
+                   this.localDataSource.splice(removeIndex, 1);
+                 }
+             );
+
+        },
+        getAttendeesList() {
+          this.$ApiService.findAttendees().then (
+               response => {
+                 console.log("Attendees Response: ", response);
+                 this.attendeesList = response;
+               }
+           );
+        }
+    },
+    created() {
+      this.getAttendeesList();
+    },
+    mounted () {},
+    beforeUpdate() {
+      if(this.attendeesList) {
+        console.log('attendeesList: ' + this.attendeesList);
         this.resources = [
             {
                 field: "attendees", // The field of the Scheduler event which contains the resource identifier.
                 title: "Attendees", // The label displayed in the Scheduler edit form for this resource.
-                dataSource: attendees,
+                dataSource: this.attendeesList,
                 multiple: true // Indicate that this is a multiple instance resource.
             }
         ]
+    }
     }
 }
 </script>
