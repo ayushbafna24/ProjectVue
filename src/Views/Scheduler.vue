@@ -58,11 +58,7 @@ export default {
             },
             selectedUser: "",
             eventTemplate: '<div class="movie-template"><p>#: kendo.toString(start, "hh:mm") # - #: kendo.toString(end, "hh:mm") #</p> <h3>#: title #</h3></div>' ,
-            allDayEvenTemplate: "allDayEvenTemplate",
-            dateHeaderTemplate: "dateHeaderTemplate",
-            groupHeaderTemplate: "groupHeaderTemplate",
-            majorTimeHeaderTemplate: "majorTimeHeaderTemplate",
-            minorTimeHeaderTemplate: "minorTimeHeaderTemplate",
+
             date: new Date()
         }
     },
@@ -100,17 +96,24 @@ export default {
             console.log("Event Values: " + ev.event);
 
             let payload = {
-                id: ev.event._id,
+                eventScheduleId: ev.event.eventScheduleId,
                 title: ev.event.title,
                 description: ev.event.description,
                 start: ev.event.start,
                 end: ev.event.end,
-                user: this.selectedUser
+                user: this.selectedUser,
+                attendees: ev.event.attendees
               }
 
             this.$ApiService.saveAndUpdateEventScheduleData(payload).then (
                  response => {
-                   this.localDataSource.push(response);
+                   if(ev.event.eventScheduleId == response.eventScheduleId) {
+                     var removeIndex = this.localDataSource.map(function(item) { return item.eventScheduleId; }).indexOf(response.eventScheduleId);
+                     this.localDataSource.splice(removeIndex, 1);
+                     this.localDataSource.push(response);
+                   } else {
+                     this.localDataSource.push(response);
+                   }
                    console.log("Save/Edit EventScheule Response: ", response);
                    console.log("EventScheule Data: ", this.localDataSource);
                  }
@@ -120,14 +123,14 @@ export default {
 
         remove: function(event) {
 
-            console.log(`Removing Event: ${event.event.title} for USER: ${event.event.user} and ID: ${event.event._id}`);
+            console.log(`Removing Event: ${event.event.title} for USER: ${event.event.user} and ID: ${event.event.eventScheduleId}`);
 
-            this.$ApiService.deleteEventScheduleData(event.event.user, event.event._id).then (
+            this.$ApiService.deleteEventScheduleData(event.event.user, event.event.eventScheduleId).then (
                  response => {
                    console.log("Delete Response: ", response);
 
                    // Getting index of object with _id
-                   var removeIndex = this.localDataSource.map(function(item) { return item._id; }).indexOf(response._id);
+                   var removeIndex = this.localDataSource.map(function(item) { return item.eventScheduleId; }).indexOf(response.eventScheduleId);
 
                    // Removing object based on index.
                    this.localDataSource.splice(removeIndex, 1);
