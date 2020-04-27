@@ -4,7 +4,6 @@ const baseURL = 'http://localhost:3000';
 export const ApiService = {
 
     getUserList() {
-        console.log('api')
         return axios.
         get(baseURL + '/api/users')
         .then(response => {
@@ -12,6 +11,14 @@ export const ApiService = {
         })
         .catch(error => console.log(error));
     },
+    updateUser(user) {
+      return axios.
+      put(baseURL + '/api/users/'+user._id,user)
+      .then(response => {
+          return response.data; // return list of users.
+      })
+      .catch(error => console.log(error));
+  },
 
     findEventScheduleData(selectedUser) {
       console.log("findEventScheduleData");

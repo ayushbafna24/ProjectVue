@@ -2,7 +2,7 @@
     <div>
         <div class="drop-down right-align">
             <dropdownlist
-                :data-items="userList"
+                :data-items="userDropdownList"
                 :text-field="'name'"
                 :data-item-key="'id'"
                 :default-item="defaultItem"
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import user from '../.././user'
 import "@progress/kendo-theme-default/dist/all.css";
 import CommandCell from './LogsAction';
 import { Grid, GridNoRecords,GridToolbar } from "@progress/kendo-vue-grid";
@@ -46,42 +45,65 @@ export default {
             defaultItem: { 
                 name: 'Select User'
             },
-            userList:user,
+            userDropdownList:[],
+            users:[],
+            selectedUser:null,
             skillGridList:[]
         }
     },
-    mounted(){},
+    mounted(){
+        this.getUsers();
+    },
     components:{
         Grid,
         GridToolbar,
         GridNoRecords
     },
     methods: {
+       async getUsers(){
+         const response =  await this.$ApiService.getUserList();
+         this.users = response;
+         this.createUserList(response);
+        },
+        createUserList(list){
+            list.map((d,index)=>{
+                const option = {'name':d.firstName,'id':index+1};
+                this.userDropdownList.push(option); 
+            })
+        },
         onDropDownChange(event) {
             let value = event.target.value.name;
             this.skillGridList = [];
             if(value != 'Select User')
                 this.filterUserSkills(value);
-        },
-         insert() {
-            const dataItem = { inEdit: true };
-           // const newproducts = this.gridData.slice();
-            this.userList.splice(0, 0, dataItem)
+            else   
+                this.selectedUser = null; 
+
         },
         filterUserSkills(selectedName){
-           let userSkill = this.userList.filter(user => {
-                return selectedName == user.name;
-            })[0].skills;
+           this.selectedUser = this.users.filter(user => {
+                return selectedName == user.firstName;
+            })[0];
             
-            userSkill.map((skill,index) =>{
+            this.selectedUser.skills.map((skill,index) =>{
                 let gridItem = {};
                 gridItem['id'] = index+1;
-                gridItem['skill_name'] = Object.keys(skill)[0];
-                gridItem['skill_value'] = Object.values(skill)[0];
+                gridItem['skill_name'] = skill.skillName;
+                gridItem['skill_value'] = skill.value;
                // gridItem['action'] = 'action';
 
                 this.skillGridList.push(gridItem);
             })
+        },
+         update(){
+            if(this.selectedUser != null){
+                this.skillGridList.map((skill,index) =>{
+                    this.selectedUser.skills[index].value = skill.skill_value;
+                })
+               this.selectedUser = this.$ApiService.updateUser(this.selectedUser)
+                
+            }
+                
         }
     }
 };
