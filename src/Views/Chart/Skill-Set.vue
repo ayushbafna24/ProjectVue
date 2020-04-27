@@ -78,15 +78,15 @@ export default {
         this.series = [];
        this.users.map(user=>{
           let currentSkill = user.skills.filter(skill=> {
-              return this.value.text == Object.keys(skill)[0]
+              return this.value.text == skill.skillName
               })
-              chartValues.push(currentSkill[0][vm.value.text]);
+              chartValues.push(currentSkill[0].value);
        })
        this.series.push({name:vm.value.text,data:chartValues});
     },
     skillDropDowns(){
             this.users[0].skills.map((lang,index) =>{
-                this.skillDropDownMenu.push({text:Object.keys(lang)[0],id:index+1});
+                this.skillDropDownMenu.push({text:lang.skillName,id:index+1});
             })
     }
   },
@@ -95,7 +95,7 @@ export default {
     this.value = this.skillDropDownMenu[0]; // default selection.
     this.getSkillChartValues();
      this.users.map(user=>{
-           this.categoryAxis.categories.push(user.name);
+           this.categoryAxis.categories.push(user.firstName);
     })
   }
 };

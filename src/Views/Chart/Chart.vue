@@ -33,22 +33,20 @@
 // import axios from 'axios';
 import skillSet from './Skill-Set';
 import userData from './User-Data';
-import user from '../.././user';
+//import user from '../.././user';
 import skillProgress from './Skill-Progress';
 import userProgress from './User-progress';
 
 export default {
     data(){
         return{
-            users:user,
+            users:[],
             userDataSet:[],
             userChartColor:["#9de219","#90cc38","#068c35","#006634","#004d38"]//#033939
         }
     },
     mounted(){
-       // this.getUsers();
-       this.createUserDataSet();
-       console.log(this.userDataSet);
+        this.getUsers();
     },
     components:{
         skillSet,
@@ -61,29 +59,22 @@ export default {
            this.$ApiService.getUserList().then(
                 response =>{
                     this.users = response;
-                    // // filter skill sets.
-                    // let skill = response[0].skills.replace("[","");
-                    // skill = skill.replace("]","").trim().split(",");
-                    // skill.forEach(element => {
-                    //     element = element.trim().split(":")[0];
-                    //     if(!vm.skillSet.includes(element))
-                    //         vm.skillSet.push(element);
-                    // });
+                    this.createUserDataSet(response);
                 } 
             )
         },
-        createUserDataSet(){
+        createUserDataSet(users){
             let vm = this;
-            this.users.map(user=>{
+            users.map(user=>{
                 let values = [];
-                user.skills.map((subject,index) =>{
+                user.skills.map((d,index) =>{
                     let chartData = {};
-                  chartData['category'] = Object.keys(subject)[0];
-                  chartData['value'] = Object.values(subject)[0];
-                  chartData['color'] = vm.userChartColor[index];
-                  values.push(chartData);
+                    chartData['category'] = d.skillName;
+                    chartData['value'] = d.value;
+                    chartData['color'] = vm.userChartColor[index];
+                    values.push(chartData);
                 })
-                let userData = {"name":user.name,"values":values}
+                let userData = {"name":user.firstName,"values":values}
                 vm.userDataSet.push(userData);
             })
 

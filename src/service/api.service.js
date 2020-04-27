@@ -6,7 +6,7 @@ export const ApiService = {
     getUserList() {
         console.log('api')
         return axios.
-        get('https://skilldata.free.beeceptor.com/getskills')
+        get(baseURL + '/api/users')
         .then(response => {
             return response.data; // return list of users.
         })
