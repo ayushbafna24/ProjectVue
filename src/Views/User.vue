@@ -29,8 +29,6 @@ import { Grid } from "@progress/kendo-vue-grid";
 import { saveExcel } from "@progress/kendo-vue-excel-export";
 import { orderBy } from "@progress/kendo-data-query";
 import { GridPdfExport } from "@progress/kendo-vue-pdf";
-//import userList from "../user.json";
-import axios from "axios";
 export default {
   data: function() {
     return {
@@ -48,23 +46,21 @@ export default {
       },
       columns: [
         { field: "id", editable: false, title: "ID" },
-        { field: "first_name", title: "First Name" },
+        { field: "firstName", title: "First Name" },
         {
-          field: "last_name",
+          field: "lastName",
           editor: "string",
           title: "Last Name",
           format: "{0:d}"
         },
         {
           title: "Skills",
-          children: [
+          children:[
             { field: "HTML", title: "HTML" },
-            { field: "VUE", title: "VUE" },
-            { field: "REACT", title: "REACT" },
+            { field: "Vue", title: "VUE" },
+            { field: "React", title: "REACT" },
             { field: "JS", title: "JS" },
-            { field: "JQUERY", title: "JQUERY" },
-            { field: "NODEJS", title: "NODEJS" },
-            { field: "ANGULAR", title: "ANGULAR" }
+            { field: "JQuery", title: "JQUERY" },
           ]
         }
       ],
@@ -76,11 +72,9 @@ export default {
   components: { Grid, GridPdfExport },
   mounted() {
     // info.data
-    axios
-      .get("https://skilldata.free.beeceptor.com/getskills")
+    this.$ApiService.getUserList()
       .then(response => {
-        let info = response;
-        this.gridData = info.data;
+        this.gridData = response
       });
   },
   computed: {
@@ -90,16 +84,10 @@ export default {
         //let record = orderBy(this.gridData, this.sort);
         record.forEach(function(item, index) {
           item.id = index + 1;
-          let skills = item.skills.replace("[", "");
-          skills = skills.replace("]", "");
-          item.skills = skills;
-          let skillContainer = skills.split(",");
-          for (let skill of skillContainer) {
-            let elememt = skill.split(":");
-            item[elememt[0].trim()] = elememt[1];
-          }
+          item.skills.map(s=>{
+            item[s.skillName] = s.value;
+          })
         });
-        console.log("recordrecord", record);
         return orderBy(record, this.sort).slice(
           this.skip,
           this.take + this.skip
