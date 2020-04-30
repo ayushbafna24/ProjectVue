@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import user from '../user'
+//import user from '../user'
 
 export default {
   name: 'Scheduler',
@@ -44,7 +44,8 @@ export default {
             scheduleFlag: false,
 
             // Getting data from "user.json" file for user drop-down.
-            userList:user,
+            //userList:user,
+            userList:[],
 
             // Getting data from "schedule.json" file for Scheduler.
             localDataSource: [],
@@ -63,6 +64,17 @@ export default {
         }
     },
     methods: {
+        async getUsers(){
+          const response =  await this.$ApiService.getUserList();
+          this.createUserList(response);
+         },
+         createUserList(list){
+             list.map((d,index)=>{
+                 const option = {'name':d.firstName,'id':index+1};
+                 //this.userDropdownList.push(option);
+                 this.userList.push(option);
+             })
+         },
 
         /**
         *  Drop-Down onChange method
@@ -148,6 +160,7 @@ export default {
         }
     },
     created() {
+      this.getUsers();
       this.getAttendeesList();
     },
     mounted () {},
